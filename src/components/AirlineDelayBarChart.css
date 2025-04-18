@@ -1,0 +1,62 @@
+.airline-delay-chart-container {
+  width: 100%;
+  height: 550px;
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.airline-delay-chart-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  border-radius: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #555;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bar-tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  border-radius: 4px;
+  pointer-events: none;
+  font-size: 12px;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.bar-tooltip:after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.75);
+} 

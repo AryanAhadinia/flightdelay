@@ -1,0 +1,316 @@
+.usmap-container {
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.usmap-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.usmap-container.fullscreen .usmap-content {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.usmap-container.fullscreen .usmap-visualization {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.usmap-container.fullscreen .usmap-text {
+  display: none;
+}
+
+.usmap-content {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+.usmap-text {
+  flex: 1;
+  text-align: left;
+}
+
+.usmap-text h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 2rem;
+}
+
+.usmap-text p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.usmap-visualization {
+  flex: 1.5;
+  position: relative;
+  height: 500px;
+  max-width: 650px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.fullscreen-btn:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+}
+
+.usmap-container.fullscreen .fullscreen-btn {
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+}
+
+.time-slider-container {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 20px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 80%;
+  max-width: 500px;
+  z-index: 1001;
+}
+
+.time-slider-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500;
+}
+
+.time-slider-header svg {
+  margin-right: 8px;
+  color: #3c91e6;
+}
+
+.time-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e0e0e0;
+  border-radius: 3px;
+  outline: none;
+}
+
+.time-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.zoom-controls {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1001;
+}
+
+.zoom-btn {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  color: #333;
+}
+
+.zoom-btn:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+}
+
+.zoom-btn:active {
+  transform: scale(0.95);
+  background-color: #e8e8e8;
+}
+
+.zoom-in {
+  margin-bottom: 5px;
+}
+
+.map-instructions {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.map-instructions p {
+  margin: 0;
+  text-align: center;
+}
+
+.airport-tooltip {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.airport-tooltip:after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.75);
+}
+
+.airport-details-card {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  width: 300px;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+.close-card-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.airport-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-right: 20px;
+}
+
+.airport-icon {
+  background-color: #3c91e6;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 18px;
+}
+
+.airport-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  line-height: 1.3;
+}
+
+.airport-code {
+  color: #666;
+  font-weight: normal;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,86 @@
+.airline-delay-section {
+  padding: 40px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.airline-delay-section.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 9999;
+  padding: 20px;
+  overflow: auto;
+}
+
+.airline-delay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.airline-delay-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.fullscreen-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.fullscreen-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.airline-delay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.airline-delay-text {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.airline-delay-text p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+.airline-delay-visualization {
+  flex: 1;
+  min-height: 550px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+@media (max-width: 768px) {
+  .airline-delay-section {
+    padding: 20px 15px;
+  }
+  
+  .airline-delay-header h2 {
+    font-size: 20px;
+  }
+} 
