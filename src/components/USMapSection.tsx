@@ -217,6 +217,7 @@ const USMapSection: React.FC = () => {
           <p>
             This is a proof of concept for the map component of the project.
             Due to the geographic nature of the data, it is necessary to visualize the data on a map.
+            Click on  <FaExpand /> to enter fullscreen mode.
           </p>
         </div>
 
