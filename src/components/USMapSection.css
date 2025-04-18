@@ -180,8 +180,8 @@
   background-color: white;
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,6 +199,11 @@
 .zoom-btn:active {
   transform: scale(0.95);
   background-color: #e8e8e8;
+}
+
+.zoom-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .zoom-in {
