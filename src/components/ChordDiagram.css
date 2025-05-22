@@ -17,11 +17,26 @@
     z-index: 1000;
     background-color: white;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 20px;
+    padding-top: 100px;
 }
 
 .chord-diagram-container path:hover {
     opacity: 0.9;
+}
+
+.chord-diagram-container .time-slider-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    max-width: 500px;
+    z-index: 1001;
 }

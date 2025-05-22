@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import './ChordDiagram.css';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 interface FlightRoute {
   source: string;
@@ -23,6 +24,7 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date(2009, 0, 1));
 
   // TODO: replace with actual data
   const airports: AirportNode[] = [
@@ -50,6 +52,30 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
     return "#cc0000";
   };
 
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // TODO: set total months dynamically based on data
+  const TOTAL_MONTHS = 10 * 12; // 10 years of data / 12 months
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    const year = Math.floor(value / 12) + 2009;
+    const month = value % 12;
+    const newDate = new Date(year, month, 1);
+    setSelectedDate(newDate);
+  };
+
+  const calculateSliderValue = (): number => {
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth();
+    return ((year - 2009) * 12) + month;
+  };
+
   useEffect(() => {
     if (!containerRef.current || !svgRef.current) return;
 
@@ -63,15 +89,17 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
     const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
 
     svg.attr("width", containerWidth)
-      .attr("height", containerHeight);
+      .attr("height", isFullscreen ? containerHeight * 0.8 : containerHeight);
 
     const width = containerWidth;
-    const height = containerHeight;
-    const outerRadius = Math.min(width, height) * 0.45;
+    const height = isFullscreen ? containerHeight * 0.8 : containerHeight;
+    const outerRadius = Math.min(width, height) * 0.4;
     const innerRadius = outerRadius * 0.9;
 
+    const translateY = isFullscreen ? height * 0.4 : height / 2;
+    
     const g = svg.append("g")
-      .attr("transform", `translate(${width / 2},${height / 2})`);
+      .attr("transform", `translate(${width / 2},${translateY})`);
 
     const airportMap = new Map<string, number>();
     airports.forEach((airport, i) => {
@@ -151,7 +179,7 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
       });
 
     setLoading(false);
-  }, [isFullscreen]);
+  }, [isFullscreen, selectedDate]);
 
   return (
     <div
@@ -162,6 +190,27 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
         <div className="loading-indicator">Loading chord diagram...</div>
       ) : null}
       <svg ref={svgRef}></svg>
+      
+      {isFullscreen && (
+        <div className="time-slider-container">
+          <div className="time-slider-header">
+            <FaCalendarAlt />
+            <span>{formatDate(selectedDate)}</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max={TOTAL_MONTHS - 1}
+            value={calculateSliderValue()}
+            onChange={handleTimeChange}
+            className="time-slider"
+          />
+          <div className="time-slider-labels">
+            <span>January 2009</span>
+            <span>December 2018</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
