@@ -4,15 +4,15 @@ import './ChordDiagram.css';
 import { FaCalendarAlt } from 'react-icons/fa';
 
 interface FlightRoute {
-  source: string;
-  target: string;
-  value: number;
-  avgDelay: number;
+  Origin: string;
+  Destination: string;
+  NumFlights: number;
+  AverageDelay: number;
 }
 
 interface AirportNode {
-  id: string;
-  name: string;
+  IATA_CODE: string;
+  AIRPORT: string;
 }
 
 interface ChordDiagramProps {
@@ -28,19 +28,19 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
 
   // TODO: replace with actual data
   const airports: AirportNode[] = [
-    { id: "LAX", name: "Los Angeles International" },
-    { id: "JFK", name: "John F. Kennedy" },
-    { id: "SFO", name: "San Francisco International" }
+    { IATA_CODE: "LAX", AIRPORT: "Los Angeles International" },
+    { IATA_CODE: "JFK", AIRPORT: "John F. Kennedy" },
+    { IATA_CODE: "SFO", AIRPORT: "San Francisco International" }
   ];
 
   // TODO: replace with actual data
   const flightRoutes: FlightRoute[] = [
-    { source: "LAX", target: "JFK", value: 380, avgDelay: 28 },
-    { source: "LAX", target: "SFO", value: 520, avgDelay: 10 },
-    { source: "JFK", target: "LAX", value: 360, avgDelay: 25 },
-    { source: "JFK", target: "SFO", value: 290, avgDelay: 30 },
-    { source: "SFO", target: "LAX", value: 510, avgDelay: 8 },
-    { source: "SFO", target: "JFK", value: 280, avgDelay: 27 }
+    { Origin: "LAX", Destination: "JFK", NumFlights: 380, AverageDelay: 28 },
+    { Origin: "LAX", Destination: "SFO", NumFlights: 520, AverageDelay: 10 },
+    { Origin: "JFK", Destination: "LAX", NumFlights: 360, AverageDelay: 25 },
+    { Origin: "JFK", Destination: "SFO", NumFlights: 290, AverageDelay: 30 },
+    { Origin: "SFO", Destination: "LAX", NumFlights: 510, AverageDelay: 8 },
+    { Origin: "SFO", Destination: "JFK", NumFlights: 280, AverageDelay: 27 }
   ];
 
   const getDelayColor = (delay: number) => {
@@ -103,17 +103,17 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
 
     const airportMap = new Map<string, number>();
     airports.forEach((airport, i) => {
-      airportMap.set(airport.id, i);
+      airportMap.set(airport.IATA_CODE, i);
     });
 
     const matrix = Array(airports.length).fill(0).map(() => Array(airports.length).fill(0));
 
     flightRoutes.forEach(route => {
-      const sourceIndex = airportMap.get(route.source);
-      const targetIndex = airportMap.get(route.target);
+      const sourceIndex = airportMap.get(route.Origin);
+      const targetIndex = airportMap.get(route.Destination);
 
       if (sourceIndex !== undefined && targetIndex !== undefined) {
-        matrix[sourceIndex][targetIndex] = route.value;
+        matrix[sourceIndex][targetIndex] = route.NumFlights;
       }
     });
 
@@ -154,7 +154,7 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
         return `translate(${x},${y}) rotate(${rotation})`;
       })
       .attr("text-anchor", d => ((d as any).angle < Math.PI ? "start" : "end"))
-      .text(d => airports[d.index].id)
+      .text(d => airports[d.index].IATA_CODE)
       .style("font-size", "12px")
       .style("font-weight", "bold");
 
@@ -165,17 +165,17 @@ const ChordDiagram: React.FC<ChordDiagramProps> = ({ className = '', isFullscree
       .join("path")
       .attr("d", ribbon as any)
       .attr("fill", d => {
-        const sourceId = airports[d.source.index].id;
-        const targetId = airports[d.target.index].id;
-        const route = flightRoutes.find(r => r.source === sourceId && r.target === targetId);
-        return route ? getDelayColor(route.avgDelay) : "#ccc";
+        const sourceId = airports[d.source.index].IATA_CODE;
+        const targetId = airports[d.target.index].IATA_CODE;
+        const route = flightRoutes.find(r => r.Origin === sourceId && r.Destination === targetId);
+        return route ? getDelayColor(route.AverageDelay) : "#ccc";
       })
       .attr("stroke", "#000")
       .style("stroke-width", d => {
-        const sourceId = airports[d.source.index].id;
-        const targetId = airports[d.target.index].id;
-        const route = flightRoutes.find(r => r.source === sourceId && r.target === targetId);
-        return route ? Math.max(0.1, Math.min(2, route.value / 200)) : 0.1;
+        const sourceId = airports[d.source.index].IATA_CODE;
+        const targetId = airports[d.target.index].IATA_CODE;
+        const route = flightRoutes.find(r => r.Origin === sourceId && r.Destination === targetId);
+        return route ? Math.max(0.1, Math.min(2, route.NumFlights / 200)) : 0.1;
       });
 
     setLoading(false);
