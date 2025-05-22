@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { FaExpand, FaCompress, FaTimes, FaSearchPlus, FaSearchMinus, FaCalendarAlt } from 'react-icons/fa';
+import * as d3 from 'd3';
 import './USMapSection.css';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -77,6 +78,15 @@ const USMapSection: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [selectedAirport, setSelectedAirport] = useState<typeof airports[0] | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(2009, 0, 1));
+
+  const [airportData, setAirportData] = useState<d3.DSVRowArray<string>>();
+
+  useEffect(() => {
+    d3.csv('data/airports.csv').then(parsedData => {
+      setAirportData(parsedData);
+      console.log(parsedData);
+    });
+  }, []);
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
